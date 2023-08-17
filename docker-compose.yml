@@ -3,9 +3,9 @@ version: "3.9"
 
 services:
   xui:
-    image: alireza7/x-ui
-    container_name: x-ui
-    hostname: yourhostname
+    image: d3vilh/x-ui:latest
+    container_name: xray-x-ui
+    hostname: xray-cloud
     volumes:
       - $PWD/db/:/etc/x-ui/
       - $PWD/cert/:/root/cert/
