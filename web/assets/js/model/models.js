@@ -192,6 +192,7 @@ class AllSetting {
         this.subKeyFile = "";
         this.subUpdates = 0;
         this.subEncrypt = true;
+        this.subShowInfo = false;
 
         this.timeLocation = "Asia/Tehran";
 

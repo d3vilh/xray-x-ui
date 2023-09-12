@@ -16,16 +16,6 @@ type Msg struct {
 	Obj     interface{} `json:"obj"`
 }
 
-type Pager struct {
-	Current  int         `json:"current"`
-	PageSize int         `json:"page_size"`
-	Total    int         `json:"total"`
-	OrderBy  string      `json:"order_by"`
-	Desc     bool        `json:"desc"`
-	Key      string      `json:"key"`
-	List     interface{} `json:"list"`
-}
-
 type AllSetting struct {
 	WebListen          string `json:"webListen" form:"webListen"`
 	WebDomain          string `json:"webDomain" form:"webDomain"`
@@ -55,6 +45,7 @@ type AllSetting struct {
 	SubKeyFile         string `json:"subKeyFile" form:"subKeyFile"`
 	SubUpdates         int    `json:"subUpdates" form:"subUpdates"`
 	SubEncrypt         bool   `json:"subEncrypt" form:"subEncrypt"`
+	SubShowInfo        bool   `json:"subShowInfo" form:"subShowInfo"`
 }
 
 func (s *AllSetting) CheckValid() error {

@@ -466,8 +466,15 @@ func (t *Tgbot) getClientUsage(chatId int64, tgUserName string) {
 			total = common.FormatTraffic((traffic.Total))
 		}
 
+		active := ""
+		if traffic.Enable {
+			active = t.I18nBot("tgbot.messages.yes")
+		} else {
+			active = t.I18nBot("tgbot.messages.no")
+		}
+
 		output := ""
-		output += t.I18nBot("tgbot.messages.active", "Enable=="+strconv.FormatBool(traffic.Enable))
+		output += t.I18nBot("tgbot.messages.active", "Enable=="+active)
 		output += t.I18nBot("tgbot.messages.email", "Email=="+traffic.Email)
 		output += t.I18nBot("tgbot.messages.upload", "Upload=="+common.FormatTraffic(traffic.Up))
 		output += t.I18nBot("tgbot.messages.download", "Download=="+common.FormatTraffic(traffic.Down))
@@ -509,8 +516,15 @@ func (t *Tgbot) searchClient(chatId int64, email string) {
 		total = common.FormatTraffic((traffic.Total))
 	}
 
+	active := ""
+	if traffic.Enable {
+		active = t.I18nBot("tgbot.messages.yes")
+	} else {
+		active = t.I18nBot("tgbot.messages.no")
+	}
+
 	output := ""
-	output += t.I18nBot("tgbot.messages.active", "Enable=="+strconv.FormatBool(traffic.Enable))
+	output += t.I18nBot("tgbot.messages.active", "Enable=="+active)
 	output += t.I18nBot("tgbot.messages.email", "Email=="+traffic.Email)
 	output += t.I18nBot("tgbot.messages.upload", "Upload=="+common.FormatTraffic(traffic.Up))
 	output += t.I18nBot("tgbot.messages.download", "Download=="+common.FormatTraffic(traffic.Down))
@@ -565,8 +579,15 @@ func (t *Tgbot) searchInbound(chatId int64, remark string) {
 				total = common.FormatTraffic((traffic.Total))
 			}
 
+			active := ""
+			if traffic.Enable {
+				active = t.I18nBot("tgbot.messages.yes")
+			} else {
+				active = t.I18nBot("tgbot.messages.no")
+			}
+
 			output := ""
-			output += t.I18nBot("tgbot.messages.active", "Enable=="+strconv.FormatBool(traffic.Enable))
+			output += t.I18nBot("tgbot.messages.active", "Enable=="+active)
 			output += t.I18nBot("tgbot.messages.email", "Email=="+traffic.Email)
 			output += t.I18nBot("tgbot.messages.upload", "Upload=="+common.FormatTraffic(traffic.Up))
 			output += t.I18nBot("tgbot.messages.download", "Download=="+common.FormatTraffic(traffic.Down))
@@ -608,8 +629,15 @@ func (t *Tgbot) searchForClient(chatId int64, query string) {
 		total = common.FormatTraffic((traffic.Total))
 	}
 
+	active := ""
+	if traffic.Enable {
+		active = t.I18nBot("tgbot.messages.yes")
+	} else {
+		active = t.I18nBot("tgbot.messages.no")
+	}
+
 	output := ""
-	output += t.I18nBot("tgbot.messages.active", "Enable=="+strconv.FormatBool(traffic.Enable))
+	output += t.I18nBot("tgbot.messages.active", "Enable=="+active)
 	output += t.I18nBot("tgbot.messages.email", "Email=="+traffic.Email)
 	output += t.I18nBot("tgbot.messages.upload", "Upload=="+common.FormatTraffic(traffic.Up))
 	output += t.I18nBot("tgbot.messages.download", "Download=="+common.FormatTraffic(traffic.Down))
@@ -713,7 +741,14 @@ func (t *Tgbot) getExhausted() string {
 				total = common.FormatTraffic((traffic.Total))
 			}
 
-			output += t.I18nBot("tgbot.messages.active", "Enable=="+strconv.FormatBool(traffic.Enable))
+			active := ""
+			if traffic.Enable {
+				active = t.I18nBot("tgbot.messages.yes")
+			} else {
+				active = t.I18nBot("tgbot.messages.no")
+			}
+
+			output += t.I18nBot("tgbot.messages.active", "Enable=="+active)
 			output += t.I18nBot("tgbot.messages.email", "Email=="+traffic.Email)
 			output += t.I18nBot("tgbot.messages.upload", "Upload=="+common.FormatTraffic(traffic.Up))
 			output += t.I18nBot("tgbot.messages.download", "Download=="+common.FormatTraffic(traffic.Down))

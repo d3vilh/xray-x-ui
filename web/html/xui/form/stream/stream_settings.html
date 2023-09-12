@@ -1,5 +1,6 @@
 {{define "form/streamSettings"}}
 <!-- select stream network -->
+<a-divider style="margin:0;"></a-divider>
 <a-form layout="inline">
     <a-form-item label="{{ i18n "transmission" }}">
         <a-select v-model="inbound.stream.network" @change="streamNetworkChange"
@@ -42,5 +43,9 @@
 <!-- grpc -->
 <template v-if="inbound.stream.network === 'grpc'">
     {{template "form/streamGRPC"}}
+</template>
+<!-- sockopt -->
+<template>
+    {{template "form/streamSockopt"}}
 </template>
 {{end}}

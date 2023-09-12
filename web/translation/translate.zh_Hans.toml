@@ -267,6 +267,8 @@
 "subUpdatesDesc" = "客户端应用程序更新之间的间隔时间"
 "subEncrypt" = "加密配置"
 "subEncryptDesc" = "在订阅中加密返回的配置"
+"subShowInfo" = "显示使用信息"
+"subShowInfoDesc" = "在配置名称后显示剩余流量和日期"
 
 [pages.settings.templates]
 "title" = "模板"
@@ -403,6 +405,8 @@
 "disabled" = "🛑 禁用：{{ .Disabled }}\r\n"
 "depleteSoon" = "🔜 即将耗尽：{{ .Deplete }}\r\n \r\n"
 "backupTime" = "🗄 备份时间：{{ .Time }}\r\n"
+"yes" = "✅ 是"
+"no" = "❌ 不"
 
 [tgbot.buttons]
 "dbBackup" = "获取数据库备份"

@@ -5,9 +5,11 @@ import (
 	"fmt"
 	"net/url"
 	"strings"
+	"time"
 	"x-ui/database"
 	"x-ui/database/model"
 	"x-ui/logger"
+	"x-ui/util/common"
 	"x-ui/web/service"
 	"x-ui/xray"
 
@@ -16,12 +18,14 @@ import (
 
 type SubService struct {
 	address        string
+	showInfo       bool
 	inboundService service.InboundService
 	settingServics service.SettingService
 }
 
-func (s *SubService) GetSubs(subId string, host string) ([]string, []string, error) {
+func (s *SubService) GetSubs(subId string, host string, showInfo bool) ([]string, []string, error) {
 	s.address = host
+	s.showInfo = showInfo
 	var result []string
 	var headers []string
 	var traffic xray.ClientTraffic
@@ -139,10 +143,8 @@ func (s *SubService) genVmessLink(inbound *model.Inbound, email string) string {
 	if inbound.Protocol != model.VMess {
 		return ""
 	}
-	remark := fmt.Sprintf("%s-%s", inbound.Remark, email)
 	obj := map[string]interface{}{
 		"v":    "2",
-		"ps":   remark,
 		"add":  s.address,
 		"port": inbound.Port,
 		"type": "none",
@@ -241,7 +243,7 @@ func (s *SubService) genVmessLink(inbound *model.Inbound, email string) string {
 		links := ""
 		for index, d := range domains {
 			domain := d.(map[string]interface{})
-			obj["ps"] = remark + "-" + domain["remark"].(string)
+			obj["ps"] = s.genRemark(inbound, email, domain["remark"].(string))
 			obj["add"] = domain["domain"].(string)
 			if index > 0 {
 				links += "\n"
@@ -251,6 +253,8 @@ func (s *SubService) genVmessLink(inbound *model.Inbound, email string) string {
 		}
 		return links
 	}
+
+	obj["ps"] = s.genRemark(inbound, email, "")
 
 	jsonStr, _ := json.MarshalIndent(obj, "", "  ")
 	return "vmess://" + base64.StdEncoding.EncodeToString(jsonStr)
@@ -407,13 +411,12 @@ func (s *SubService) genVlessLink(inbound *model.Inbound, email string) string {
 
 	// Set the new query values on the URL
 	url.RawQuery = q.Encode()
-	remark := fmt.Sprintf("%s-%s", inbound.Remark, email)
 
 	if len(domains) > 0 {
 		links := ""
 		for index, d := range domains {
 			domain := d.(map[string]interface{})
-			url.Fragment = remark + "-" + domain["remark"].(string)
+			url.Fragment = s.genRemark(inbound, email, domain["remark"].(string))
 			url.Host = fmt.Sprintf("%s:%d", domain["domain"].(string), port)
 			if index > 0 {
 				links += "\n"
@@ -423,7 +426,7 @@ func (s *SubService) genVlessLink(inbound *model.Inbound, email string) string {
 		return links
 	}
 
-	url.Fragment = remark
+	url.Fragment = s.genRemark(inbound, email, "")
 	return url.String()
 }
 
@@ -572,13 +575,11 @@ func (s *SubService) genTrojanLink(inbound *model.Inbound, email string) string 
 	// Set the new query values on the URL
 	url.RawQuery = q.Encode()
 
-	remark := fmt.Sprintf("%s-%s", inbound.Remark, email)
-
 	if len(domains) > 0 {
 		links := ""
 		for index, d := range domains {
 			domain := d.(map[string]interface{})
-			url.Fragment = remark + "-" + domain["remark"].(string)
+			url.Fragment = s.genRemark(inbound, email, domain["remark"].(string))
 			url.Host = fmt.Sprintf("%s:%d", domain["domain"].(string), port)
 			if index > 0 {
 				links += "\n"
@@ -588,7 +589,7 @@ func (s *SubService) genTrojanLink(inbound *model.Inbound, email string) string 
 		return links
 	}
 
-	url.Fragment = remark
+	url.Fragment = s.genRemark(inbound, email, "")
 	return url.String()
 }
 
@@ -671,10 +672,53 @@ func (s *SubService) genShadowsocksLink(inbound *model.Inbound, email string) st
 
 	// Set the new query values on the URL
 	url.RawQuery = q.Encode()
-
-	remark := fmt.Sprintf("%s-%s", inbound.Remark, clients[clientIndex].Email)
-	url.Fragment = remark
+	url.Fragment = s.genRemark(inbound, email, "")
 	return url.String()
+}
+
+func (s *SubService) genRemark(inbound *model.Inbound, email string, extra string) string {
+	var remark []string
+	if len(email) > 0 {
+		if len(inbound.Remark) > 0 {
+			remark = append(remark, inbound.Remark)
+		}
+		remark = append(remark, email)
+		if len(extra) > 0 {
+			remark = append(remark, extra)
+		}
+	} else {
+		return inbound.Remark
+	}
+
+	if s.showInfo {
+		statsExist := false
+		var stats xray.ClientTraffic
+		for _, clientStat := range inbound.ClientStats {
+			if clientStat.Email == email {
+				stats = clientStat
+				statsExist = true
+				break
+			}
+		}
+
+		// Get remained days
+		if statsExist {
+			if !stats.Enable {
+				return fmt.Sprintf("⛔️N/A-%s", strings.Join(remark, "-"))
+			}
+			if vol := stats.Total - (stats.Up + stats.Down); vol > 0 {
+				remark = append(remark, fmt.Sprintf("%s%s", common.FormatTraffic(vol), "📊"))
+			}
+			now := time.Now().Unix()
+			switch exp := stats.ExpiryTime / 1000; {
+			case exp > 0:
+				remark = append(remark, fmt.Sprintf("%d%s⏳", (exp-now)/86400, "Days"))
+			case exp < 0:
+				remark = append(remark, fmt.Sprintf("%d%s⏳", exp/-86400, "Days"))
+			}
+		}
+	}
+	return strings.Join(remark, "-")
 }
 
 func searchKey(data interface{}, key string) (interface{}, bool) {

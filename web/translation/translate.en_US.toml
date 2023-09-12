@@ -267,7 +267,8 @@
 "subUpdatesDesc" = "Interval hours between updates in client application"
 "subEncrypt" = "Encrypt configs"
 "subEncryptDesc" = "Encrypt the returned configs in subscription"
-
+"subShowInfo" = "Show usage info"
+"subShowInfoDesc" = "Show remianed traffic and date after config name"
 
 [pages.settings.templates]
 "title" = "Templates"
@@ -404,6 +405,8 @@
 "disabled" = "🛑 Disabled: {{ .Disabled }}\r\n"
 "depleteSoon" = "🔜 Deplete soon: {{ .Deplete }}\r\n \r\n"
 "backupTime" = "🗄 Backup Time: {{ .Time }}\r\n"
+"yes" = "✅ Yes"
+"no" = "❌ No"
 
 [tgbot.buttons]
 "dbBackup" = "Get DB Backup"
