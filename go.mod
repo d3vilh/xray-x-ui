@@ -5,7 +5,7 @@ go 1.21
 toolchain go1.21.0
 
 require (
-	github.com/Workiva/go-datastructures v1.1.0
+	github.com/Workiva/go-datastructures v1.1.1
 	github.com/gin-contrib/sessions v0.0.4
 	github.com/gin-gonic/gin v1.9.1
 	github.com/go-telegram-bot-api/telegram-bot-api/v5 v5.5.1
@@ -18,7 +18,7 @@ require (
 	github.com/xtls/xray-core v1.8.4
 	go.uber.org/atomic v1.11.0
 	golang.org/x/text v0.13.0
-	google.golang.org/grpc v1.58.0
+	google.golang.org/grpc v1.58.1
 	gorm.io/driver/sqlite v1.5.3
 	gorm.io/gorm v1.25.4
 )

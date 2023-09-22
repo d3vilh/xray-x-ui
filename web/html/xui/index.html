@@ -42,7 +42,7 @@
                                                     :stroke-color="status.cpu.color"
                                                     :class="themeSwitcher.darkCardClass"
                                                     :percent="status.cpu.percent"></a-progress>
-                                        <div>CPU ([[ status.cpuCount ]]core)</div>
+                                        <div>CPU: ([[ status.cpuCount ]]core)</div>
                                     </a-col>
                                     <a-col :span="12" style="text-align: center">
                                         <a-progress type="dashboard" status="normal"
@@ -63,7 +63,7 @@
                                                     :class="themeSwitcher.darkCardClass"
                                                     :percent="status.swap.percent"></a-progress>
                                         <div>
-                                            swap: [[ sizeFormat(status.swap.current) ]] / [[ sizeFormat(status.swap.total) ]]
+                                            Swap: [[ sizeFormat(status.swap.current) ]] / [[ sizeFormat(status.swap.total) ]]
                                         </div>
                                     </a-col>
                                     <a-col :span="12" style="text-align: center">
@@ -85,16 +85,16 @@
                 <a-row>
                     <a-col :sm="24" :md="12">
                         <a-card hoverable :class="themeSwitcher.darkCardClass">
-                            x-ui: <a href="https://github.com/alireza0/x-ui/releases" target="_blank"><a-tag color="green">{{ .cur_ver }}</a-tag></a>
-                            xray: <a-tag color="green" style="cursor: pointer;" @click="openSelectV2rayVersion">[[ status.xray.version ]]</a-tag>
+                            X-UI: <a href="https://github.com/alireza0/x-ui/releases" target="_blank"><a-tag color="green">{{ .cur_ver }}</a-tag></a>
+                            Xray: <a-tag color="green" style="cursor: pointer;" @click="openSelectV2rayVersion">[[ status.xray.version ]]</a-tag>
                         </a-card>
                     </a-col>
                     <a-col :sm="24" :md="12">
                         <a-card hoverable :class="themeSwitcher.darkCardClass">
                             {{ i18n "pages.index.operationHours" }}:
-                            xray
+                            Xray
                             <a-tag color="green">[[ formatSecond(status.appStats.uptime) ]]</a-tag>
-                            os
+                            OS
                             <a-tooltip>
                                 <template slot="title">
                                     {{ i18n "pages.index.operationHoursDesc" }}
@@ -135,8 +135,8 @@
                     <a-col :sm="24" :md="12">
                         <a-card hoverable :class="themeSwitcher.darkCardClass">
                             {{ i18n "usage"}}:
-                            Memory [[ sizeFormat(status.appStats.mem) ]] -
-                            Threads [[ status.appStats.threads ]]
+                            Memory: [[ sizeFormat(status.appStats.mem) ]] -
+                            Threads: [[ status.appStats.threads ]]
                             </a-tooltip>
                         </a-card>
                     </a-col>
@@ -163,7 +163,7 @@
                     </a-col>
                     <a-col :sm="24" :md="12">
                         <a-card hoverable :class="themeSwitcher.darkCardClass">
-                            {{ i18n "pages.index.connectionCount" }}: tcp: [[ status.tcpCount ]]  udp: [[ status.udpCount ]]
+                            {{ i18n "pages.index.connectionCount" }}: TCP: [[ status.tcpCount ]]  UDP: [[ status.udpCount ]]
                             <a-tooltip>
                                 <template slot="title">
                                     {{ i18n "pages.index.connectionCountDesc" }}
